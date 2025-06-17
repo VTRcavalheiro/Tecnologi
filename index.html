@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Minha Página Web</title>
+  <link rel="stylesheet" href="css/style.css" />
+  <!-- FontAwesome para ícones -->
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"
+  />
+</head>
+<body>
+  <header>
+    <h1>Minha Pagina de T.I</h1>
+    <button id="toggleTheme" aria-label="Alternar tema">
+     <i class="fa-solid fa-moon"></i>
+    </button>
+  </header>
+
+  <main>
+    <p>Essa é uma página web simples feita com HTML, CSS e JavaScript.</p>
+    <button id="meuBotao">Clique em mim</button>
+
+    <section id="dadosTI" style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
+      <h2>Dados da Máquina e Navegador</h2>
+      <ul>
+        <li><i class="fa-solid fa-clock"></i> <strong>Data e Hora do Acesso:</strong> <span id="dataHora"></span></li>
+        <li><i class="fa-solid fa-globe"></i> <strong>Endereço IP Público:</strong> <span id="ipPublico">Carregando...</span></li>
+        <li><i class="fa-solid fa-desktop"></i> <strong>Sistema Operacional:</strong> <span id="sistemaOperacional"></span></li>
+        <li><i class="fa-brands fa-chrome"></i> <strong>Navegador:</strong> <span id="navegador"></span></li>
+        <li><i class="fa-solid fa-wifi"></i> <strong>Qualidade da Conexão:</strong> <span id="qualidadeConexao">Detectando...</span></li>
+        <li><i class="fa-solid fa-arrow-down"></i> <strong>Velocidade Download:</strong> <span id="velocidadeDownload">Detectando...</span></li>
+        <li><i class="fa-solid fa-arrow-up"></i> <strong>Velocidade Upload:</strong> <span id="velocidadeUpload">Estimando...</span></li>
+        <li><i class="fa-solid fa-shield-alt"></i> <strong>Conexão VPN Detectada:</strong> <span id="vpnStatus">Detectando...</span></li>
+      </ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 - Todos os direitos reservados</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
