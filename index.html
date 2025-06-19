@@ -14,6 +14,7 @@
   />
 </head>
 <body>
+  
   <header>
     <h1>Minha Pagina de T.I</h1>
     <button id="toggleTheme" aria-label="Alternar tema">
@@ -26,16 +27,23 @@
     <button id="meuBotao">Clique em mim</button>
 
     <section id="dadosTI" style="margin-top: 40px; text-align: left; max-width: 600px; margin-left: auto; margin-right: auto;">
-      <h2>Dados da Máquina e Navegador</h2>
+      <h2 class="section-title"><i class="fa-solid fa-desktop"></i>Dados da Máquina e Navegador</h2>
       <ul>
-        <li><i class="fa-solid fa-clock"></i> <strong>Data e Hora do Acesso:</strong> <span id="dataHora"></span></li>
-        <li><i class="fa-solid fa-globe"></i> <strong>Endereço IP Público:</strong> <span id="ipPublico">Carregando...</span></li>
-        <li><i class="fa-solid fa-desktop"></i> <strong>Sistema Operacional:</strong> <span id="sistemaOperacional"></span></li>
-        <li><i class="fa-brands fa-chrome"></i> <strong>Navegador:</strong> <span id="navegador"></span></li>
-        <li><i class="fa-solid fa-wifi"></i> <strong>Qualidade da Conexão:</strong> <span id="qualidadeConexao">Detectando...</span></li>
-        <li><i class="fa-solid fa-arrow-down"></i> <strong>Velocidade Download:</strong> <span id="velocidadeDownload">Detectando...</span></li>
-        <li><i class="fa-solid fa-arrow-up"></i> <strong>Velocidade Upload:</strong> <span id="velocidadeUpload">Estimando...</span></li>
-        <li><i class="fa-solid fa-shield-alt"></i> <strong>Conexão VPN Detectada:</strong> <span id="vpnStatus">Detectando...</span></li>
+      <li><i class="fa-solid fa-desktop"></i><strong>Data e Hora:</strong> <span id="dataHora">Carregando...</span></li>  
+      <li><i class="fa-solid fa-location-dot"></i><strong>Localização aproximada:</strong> <span id="localizacaoIP">Carregando...</span></li>      
+      <li><i class="fa-solid fa-laptop"></i><strong>Sistema Operacional:</strong> <span id="sistemaOperacional">Carregando...</span></li>
+      <li><i class="fa-solid fa-tv"></i><strong>Resolução da Tela:</strong> <span id="resolucaoTela">Carregando...</span></li>
+      <li><i class="fa-solid fa-bolt"></i><strong>Taxa de Atualização (Hertz):</strong> <span id="taxaAtualizacao">Carregando...</span></li>
+      <li><i class="fab fa-chrome"></i><strong>Navegador:</strong> <span id="navegador">Carregando...</span></li>
+
+      <h3 style="margin-top: 20px;">📡 Dados de Rede</h3>
+
+      <li><i class="fa-solid fa-network-wired"></i><strong>Provedor de Internet:</strong> <span id="provedorInternet">Carregando...</span></li>
+      <li><i class="fa-solid fa-globe"></i><strong>IP Público:</strong> <span id="ipPublico">Carregando...</span></li>
+      <li><i class="fa-solid fa-wifi"></i><strong>Qualidade da Conexão:</strong> <span id="qualidadeConexao">Carregando...</span></li>
+      <li><i class="fa-solid fa-arrow-down"></i><strong>Velocidade de Download:</strong> <span id="velocidadeDownload">Carregando...</span></li>
+      <li><i class="fa-solid fa-arrow-up"></i><strong>Velocidade de Upload:</strong> <span id="velocidadeUpload">Carregando...</span></li>
+      <li><i class="fa-solid fa-shield-alt"></i><strong>VPN Ativa:</strong> <span id="vpnStatus">Carregando...</span></li>
       </ul>
     </section>
   </main>
