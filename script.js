@@ -77,7 +77,7 @@ animate();
 
 // === FUNÇÕES DO SITE ===
 
-// Detecta IP público
+// IP público
 async function pegarIpPublico() {
   try {
     const res = await fetch('https://api.ipify.org?format=json');
@@ -88,7 +88,7 @@ async function pegarIpPublico() {
   }
 }
 
-// Detecta sistema operacional
+// Sistema operacional
 function detectarSO() {
   const ua = navigator.userAgent.toLowerCase();
   const platform = navigator.platform.toLowerCase();
@@ -130,7 +130,7 @@ function detectarSO() {
   return "Desconhecido";
 }
 
-// Detecta navegador
+// Navegador
 function detectarNavegador() {
   const ua = navigator.userAgent;
   if (ua.includes("Firefox")) return "Mozilla Firefox";
@@ -140,7 +140,7 @@ function detectarNavegador() {
   return "Desconhecido";
 }
 
-// Detecta qualidade da conexão
+// Qualidade da conexão
 function detectarQualidadeConexao() {
   const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
   if (!conn || !conn.effectiveType)
@@ -158,10 +158,10 @@ function detectarQualidadeConexao() {
   return `<span style="color: ${cor}; font-weight: bold;">${statusIcon} ${texto}</span>`;
 }
 
-// Teste real de velocidade de download
+// Velocidade de download
 async function detectarVelocidadeDownload() {
   try {
-    const fileUrl = "https://speed.cloudflare.com/__down?bytes=1000000"; // 1MB
+    const fileUrl = "https://speed.cloudflare.com/__down?bytes=1000000";
     const start = performance.now();
     const response = await fetch(fileUrl, { cache: "no-store" });
     await response.blob();
@@ -187,24 +187,99 @@ function detectarVelocidadeUpload(downloadText) {
   return `<span style="color: blue; font-weight: bold;">📤 ${estimado} Mbps (estimado)</span>`;
 }
 
-// Detecção de VPN
+// VPN
 async function detectarVPN() {
   try {
     const res = await fetch("https://ipapi.co/json/");
     const data = await res.json();
-    const suspeitas = ["NordVPN", "Surfshark", "ExpressVPN", "Proton", "TunnelBear", "VPN", "Private Internet"];
-    const fora = data.country !== "BR";
-    const vpnDetectada = suspeitas.some(v => (data.org || "").toLowerCase().includes(v.toLowerCase()));
 
-    return (fora || vpnDetectada)
-      ? `✅ Sim (${data.org || "Origem suspeita"})`
-      : `❌ Não (${data.org || "Origem local"})`;
+    const suspeitas = ["NordVPN", "Surfshark", "ExpressVPN", "Proton", "TunnelBear", "VPN", "Private Internet"];
+    const foraDoBrasil = data.country !== "BR";
+    const org = (data.org || "").toLowerCase();
+    const vpnDetectada = suspeitas.some(v => org.includes(v.toLowerCase()));
+
+    return (foraDoBrasil || vpnDetectada) ? "✅ Sim" : "❌ Não";
   } catch {
     return "Indisponível";
   }
 }
 
-// Atualiza todos os dados na tela
+// === NOVA FUNÇÃO: Provedor de internet ===
+async function detectarProvedorInternet() {
+  try {
+    const res = await fetch("https://ipapi.co/json/");
+    const data = await res.json();
+    return data.org || "Indisponível";
+  } catch {
+    return "Indisponível";
+  }
+}
+
+// Função para buscar localização aproximada por IP
+function obterLocalizacaoPorIP() {
+  fetch('http://ip-api.com/json/')
+    .then(response => response.json())
+    .then(data => {
+      if (data.status === "success") {
+        const locationInfo = `${data.city}, ${data.regionName}, ${data.country}`;
+        document.getElementById('localizacaoIP').textContent = locationInfo;
+      } else {
+        document.getElementById('localizacaoIP').textContent = "Não disponível";
+      }
+    })
+    .catch(err => {
+      console.error('Erro ao obter localização por IP:', err);
+      document.getElementById('localizacaoIP').textContent = "Erro ao obter localização";
+    });
+}
+
+// Chama a função para carregar logo que a página carregar
+window.addEventListener('load', () => {
+  obterLocalizacaoPorIP();
+});
+
+// Função para mostrar resolução da tela
+function mostrarResolucaoTela() {
+  const resolucao = `${screen.width} x ${screen.height}`;
+  document.getElementById('resolucaoTela').textContent = resolucao;
+}
+
+// Função para estimar a taxa de atualização do monitor (em Hz)
+function estimarTaxaAtualizacao(callback, duracao = 1000) {
+  let frameCount = 0;
+  let startTime = null;
+
+  function raf(time) {
+    if (!startTime) {
+      startTime = time;
+      frameCount = 0;
+    }
+
+    frameCount++;
+
+    if (time - startTime < duracao) {
+      requestAnimationFrame(raf);
+    } else {
+      const fps = frameCount / ((time - startTime) / 1000);
+      callback(Math.round(fps));
+    }
+  }
+
+  requestAnimationFrame(raf);
+}
+
+// Chamada para mostrar resolução e taxa de atualização
+window.addEventListener('load', () => {
+  mostrarResolucaoTela();
+
+  estimarTaxaAtualizacao((fps) => {
+    document.getElementById('taxaAtualizacao').textContent = fps + " Hz (aprox.)";
+  });
+});
+
+
+
+// Mostrar dados na tela
 async function mostrarDados() {
   document.getElementById("ipPublico").textContent = await pegarIpPublico();
   document.getElementById("sistemaOperacional").textContent = detectarSO();
@@ -219,19 +294,17 @@ async function mostrarDados() {
 
   document.getElementById("dataHora").textContent = new Date().toLocaleString();
   document.getElementById("vpnStatus").textContent = await detectarVPN();
+  document.getElementById("provedorInternet").textContent = await detectarProvedorInternet();
+  
 }
 mostrarDados();
 
 
-// === Alterna tema claro/escuro ===
+// === Alternar tema claro/escuro ===
 const toggleButton = document.getElementById("toggleTheme");
 
 toggleButton.addEventListener("click", () => {
-  if (document.body.classList.contains("light")) {
-    document.body.classList.remove("light");
-  } else {
-    document.body.classList.add("light");
-  }
+  document.body.classList.toggle("light");
 
   const icon = toggleButton.querySelector("i");
   if (icon) {
